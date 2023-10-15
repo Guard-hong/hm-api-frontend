@@ -1,85 +1,55 @@
 import ProCard from "@ant-design/pro-card";
 import {Card, Divider, Spin, Table} from "antd";
 import Search from "antd/es/input/Search";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {listInterfaceInfoUsingGET} from "@/services/hapi-backend/interfaceInfoController";
+import {listInterfaceInfoByPageUsingGET} from "@/services/hmapi-backend/interfaceInfoController";
 
 
 const TableList: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [list, setList] = useState<API.InterfaceInfo[]>([]);
+  const [total, setTotal] = useState<number>(0);
+
+  const loadData = async (current:number=1,pageSize:number=5)=>{
+    setLoading(true);
+    try{
+      const res = await listInterfaceInfoByPageUsingGET({
+        current,
+        pageSize
+      });
+      setList(res?.data?.records ?? []);
+      setTotal(res?.data?.total ?? 0);
+    }catch (error:any){
+
+    }
+    setLoading(false);
+  }
+  useEffect(()=>{
+    loadData();
+  },[]);
   const columns = [
     {
       title: '接口名称',
       dataIndex: 'name',
       key: 'name',
+      width: '30%',
       align: 'center'
     },
     {
       title: '接口说明',
-      dataIndex: 'details',
-      key: 'details',
+      dataIndex: 'description',
+      key: 'description',
+      width: '40%',
       align: 'center'
     },
     {
       title: '调用次数',
       dataIndex: 'totalInvokes',
       key: 'totalInvokes',
+      width: '30%',
       align: 'center'
-    },
-  ];
-  const dataSource = [
-    {
-      key: '1432',
-      name: '胡彦斌',
-      details: 32,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '2423',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '32423',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '4432',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '5',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '6',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '7',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    }, {
-      key: '8',
-      name: '胡彦祖',
-      details: 42,
-      totalInvokes: '西湖区湖底公园1号',
-    },
-    {
-      key: '9',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
     },
   ];
   const onSearch = () => {
@@ -110,7 +80,7 @@ const TableList: React.FC = () => {
       <Spin spinning={loading}>
         <Card hoverable>
           <Table
-            dataSource={dataSource}
+            dataSource={list}
             columns={columns}
             onRow={(record) => {
               return {
@@ -122,9 +92,9 @@ const TableList: React.FC = () => {
             pagination={{
               pageSize: 5,
               defaultPageSize: 5,
-              total: dataSource.length,
+              total,
               onChange: (page, pageSize) => {
-                console.log(page, pageSize)
+                loadData(page,pageSize);
               }
             }}
 
