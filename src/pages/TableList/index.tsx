@@ -2,7 +2,6 @@ import ProCard from "@ant-design/pro-card";
 import {Card, Divider, Spin, Table} from "antd";
 import Search from "antd/es/input/Search";
 import {useEffect, useState} from "react";
-import {listInterfaceInfoUsingGET} from "@/services/hapi-backend/interfaceInfoController";
 import {listInterfaceInfoByPageUsingGET} from "@/services/hmapi-backend/interfaceInfoController";
 
 
