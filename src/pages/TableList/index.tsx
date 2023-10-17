@@ -3,7 +3,7 @@ import {Card, Divider, Spin, Table} from "antd";
 import Search from "antd/es/input/Search";
 import {useEffect, useState} from "react";
 import {listInterfaceInfoByPageUsingGET} from "@/services/hmapi-backend/interfaceInfoController";
-
+import {history} from "@umijs/max";
 
 const TableList: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
@@ -84,7 +84,8 @@ const TableList: React.FC = () => {
             onRow={(record) => {
               return {
                 onClick: (event) => {
-                  console.log(record);
+                  console.log(`/interface_info/${record.id}`)
+                  history.push(`/interface_info/${record.id}`)
                 }, // 点击行
               };
             }}

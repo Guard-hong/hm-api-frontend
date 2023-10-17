@@ -19,4 +19,10 @@ export default [
 
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
+  {
+    path: '/interface_info/:id',
+    name: '接口详情',
+    component: './InterfaceInfo',
+    hideInMenu: true,
+  },
 ];

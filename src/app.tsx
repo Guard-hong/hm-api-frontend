@@ -47,6 +47,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     avatarProps: {
       src: initialState?.loginUser?.userAvatar,
       render: (_, avatarChildren) => {
+        // console.log( initialState?.loginUser?.userAvatar)
+        // console.log(avatarChildren)
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
