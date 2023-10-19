@@ -95,18 +95,18 @@ const Login: React.FC = () => {
       const res = await userLoginUsingPOST({
         ...values
       });
-      console.log(res);
       if (res.data) {
         const urlParams = new URL(window.location.href).searchParams;
+        console.log(urlParams)
         history.push(urlParams.get('redirect') || '/');
         setInitialState({
-          loginUser: res.data
+          loginUser: res.data,
+          settings: Settings,
         });
         return;
       }
       } catch (error) {
       const defaultLoginFailureMessage = '登录失败，请重试！';
-      console.log(error);
       message.error(defaultLoginFailureMessage);
     }
   };

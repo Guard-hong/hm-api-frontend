@@ -14,28 +14,27 @@ import {getLoginUserUsingGET} from "@/services/hmapi-backend/userController";
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
+const state: InitialState = {
+  loginUser: undefined,
+  settings: Settings,
+  open: false
+}
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<InitialState> {
-
   // 当页面首次加载时，获取要全局保存的数据，比如用户登录信息
-  const state: InitialState = {
-    loginUser: undefined,
-    settings: Settings,
-    open: false
-  }
   if (window.location.pathname === loginPath ) {
     return state;
   }
   try {
     const res = await getLoginUserUsingGET();
-    console.log(res);
-    if (res.data) {
+
+    if (res.data && res.code === 0) {
       state.loginUser = res.data;
     }
   } catch (error) {
-    history.push(loginPath);
+    // history.push(loginPath);
   }
   return state;
 }
@@ -59,9 +58,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!initialState?.loginUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
+
+      // 对一些界面进行是否登录进行判断
+      // if (!initialState?.loginUser && location.pathname !== loginPath) {
+      //   history.push(loginPath);
+      // }
     },
     layoutBgImgList: [
       {

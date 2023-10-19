@@ -82,7 +82,6 @@ const InterfaceInfo: React.FC = () => {
     }
   };
   useEffect(() => {
-    console.log(1111)
     loadedData();
   }, []);
 
@@ -112,26 +111,34 @@ const InterfaceInfo: React.FC = () => {
   ];
 
   const onSearch = async (values: any) => {
+    console.log(loginUser)
     // 未登录跳转到登录页面
     if (!loginUser) {
+      console.log(loginUser)
       history.replace({
         pathname: '/user/login',
         search: stringify({
           redirect: pathname + search,
         }),
       });
+      message.error('请先登录')
+      return ;
     }
-
-    setResultLoading(true)
-    const res = await invokeInterfaceUsingPOST({
-      id: data?.id,
-      ...values
-    })
-    if (res.code === 0) {
-      setTotalInvokes(Number(totalInvokes) + 1)
+    try{
+      setResultLoading(true)
+      const res = await invokeInterfaceUsingPOST({
+        id: data?.id,
+        ...values
+      })
+      if (res.code === 0) {
+        setTotalInvokes(Number(totalInvokes) + 1)
+      }
+      setResult(JSON.stringify(res, null, 4))
+    }catch (error){
+      message.error('调用接口失败')
     }
-    setResult(JSON.stringify(res, null, 4))
     setResultLoading(false)
+
   };
 
   const responseExampleContentList: Record<string, React.ReactNode> = {

@@ -83,8 +83,7 @@ const TableList: React.FC = () => {
             columns={columns}
             onRow={(record) => {
               return {
-                onClick: (event) => {
-                  console.log(`/interface_info/${record.id}`)
+                onClick: () => {
                   history.push(`/interface_info/${record.id}`)
                 }, // 点击行
               };
