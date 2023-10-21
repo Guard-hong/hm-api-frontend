@@ -16,7 +16,7 @@ const Settings: ProLayoutProps & {
   colorWeak: false,
   title: '虹猫API 接口开放平台',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: '/logo.png',
   splitMenus: false,
   iconfontUrl: '',
   token: {

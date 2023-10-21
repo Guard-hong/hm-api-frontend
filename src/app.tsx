@@ -69,14 +69,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             tooltip={<img src={wechat} alt="微信 code_nav" width="120"/>}
             icon={<WechatOutlined/>}
           />
-          <FloatButton
-            tooltip={"📘 接口在线文档"}
-            icon={<FileTextOutlined/>}
-            onClick={() => {
-              location.href = "https://doc.qimuu.icu/"
-            }
-            }
-          />
           {/*<FloatButton*/}
           {/*  tooltip={"分享此网站"}*/}
           {/*  icon={<ExportOutlined/>}*/}
@@ -89,6 +81,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           {/*    setInitialState({loginUser: initialState?.loginUser, settings: Settings, open: true})*/}
           {/*  }*/}
           {/*  }/>*/}
+          <FloatButton
+            tooltip={"查看本站技术及源码，欢迎 star"}
+            icon={<GithubOutlined/>}
+            onClick={() => {
+              location.href = "https://github.com/Guard-hong/hm-api"
+            }
+            }
+          />
           <FloatButton
             tooltip={"切换主题"}
             icon={<LightColor/>}

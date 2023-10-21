@@ -1,25 +1,29 @@
 import Footer from '@/components/Footer';
-import {Link} from '@@/exports';
+import {
+  getCaptchaUsingGET,
+  userEmailRegisterUsingPOST,
+  userRegisterUsingPOST
+} from '@/services/hmapi-backend/userController';
+import {Link, useParams} from '@@/exports';
 import {
   AlipayCircleOutlined,
+  LinkOutlined,
   LockOutlined,
   MailOutlined,
+  RedditOutlined,
   TaobaoCircleOutlined,
   UserOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import {LoginForm, ProFormCheckbox, ProFormText} from '@ant-design/pro-components';
 import {useEmotionCss} from '@ant-design/use-emotion-css';
-import {Helmet, history, useModel} from '@umijs/max';
-import {message, Tabs} from 'antd';
-import React, {useState} from 'react';
+import {Helmet, history} from '@umijs/max';
+import {Form, message, Tabs} from 'antd';
+import React, {useEffect, useState} from 'react';
 import Settings from '../../../../config/defaultSettings';
 import {ProFormCaptcha} from "@ant-design/pro-form";
-import {getCaptchaUsingGET, userEmailLoginUsingPOST, userLoginUsingPOST} from "@/services/hmapi-backend/userController";
 
 const ActionIcons = () => {
-
-
   const langClassName = useEmotionCss(({token}) => {
     return {
       marginLeft: '8px',
@@ -42,9 +46,27 @@ const ActionIcons = () => {
   );
 };
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [type, setType] = useState<string>('email');
-  const {setInitialState} = useModel('@@initialState');
+  const [invitationCode, setInvitationCode] = useState<string>('');
+  const [form] = Form.useForm();
+  const params = useParams()
+
+  const undeveloped = ()=> {
+    message.error("未开发,敬请期待")
+    return ;
+  }
+
+  useEffect(() => {
+    if (params.id) {
+      setInvitationCode(params.id);
+      form.setFieldsValue(invitationCode)
+    }
+  }, [params.id]);
+
+  useEffect(() => {
+    form.setFieldsValue({invitationCode});
+  }, [invitationCode]);
   const containerClassName = useEmotionCss(() => {
     return {
       display: 'flex',
@@ -56,38 +78,38 @@ const Login: React.FC = () => {
       backgroundSize: '100% 100%',
     };
   });
-  const doLogin = (res: any) => {
+
+  const doRegister = (res: any) => {
     if (res.data && res.code === 0) {
-      message.success('登陆成功');
+      message.success('注册成功');
       setTimeout(() => {
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
+        history.push('/user/login');
       }, 100);
-      setInitialState({loginUser: res.data, settings: Settings});
     }
   }
-  const handleSubmit = async (values: API.UserLoginRequest) => {
+
+  const handleSubmit = async (values: API.UserRegisterRequest) => {
     try {
       // 登录
-      const res = await userLoginUsingPOST({
+      const res = await userRegisterUsingPOST({
         ...values,
       });
-      doLogin(res)
+      doRegister(res)
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
+      const defaultLoginFailureMessage = '注册失败，请重试！';
       message.error(defaultLoginFailureMessage);
     }
   };
 
-  const handleEmailSubmit = async (values: API.UserEmailLoginRequest) => {
+  const handleEmailSubmit = async (values: API.UserEmailRegisterRequest) => {
     try {
       // 登录
-      const res = await userEmailLoginUsingPOST({
+      const res = await userEmailRegisterUsingPOST({
         ...values,
       });
-      doLogin(res)
+      doRegister(res)
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
+      const defaultLoginFailureMessage = '注册失败，请重试！';
       message.error(defaultLoginFailureMessage);
     }
   };
@@ -96,7 +118,7 @@ const Login: React.FC = () => {
     <div className={containerClassName}>
       <Helmet>
         <title>
-          {'登录'}- {Settings.title}
+          {'注册账号'}- {Settings.title}
         </title>
       </Helmet>
       <div
@@ -106,6 +128,13 @@ const Login: React.FC = () => {
         }}
       >
         <LoginForm
+          form={form}
+          submitter={
+            {
+              searchConfig: {
+                submitText: "注册"
+              }
+            }}
           contentStyle={{
             minWidth: 280,
             maxWidth: '75vw',
@@ -114,14 +143,14 @@ const Login: React.FC = () => {
           title="虹猫API 接口开放平台"
           subTitle={'虹猫API 接口开放平台致力于提供稳定、安全、高效的接口调用服务'}
           initialValues={{
-            autoLogin: true,
+            invitationCode: invitationCode
           }}
           actions={['其他登录方式 :', <ActionIcons key="icons"/>]}
           onFinish={async (values) => {
             if (type === "account") {
-              await handleSubmit(values as API.UserLoginRequest);
+              await handleSubmit(values as API.UserRegisterRequest);
             } else {
-              await handleEmailSubmit(values as API.UserEmailLoginRequest);
+              await handleEmailSubmit(values as API.UserEmailRegisterRequest);
             }
           }}
         >
@@ -132,17 +161,24 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'email',
-                label: '邮箱账号登录',
+                label: '邮箱账号注册',
               },
               {
                 key: 'account',
-                label: '账户密码登录',
+                label: '平台账号注册',
               },
-
             ]}
           />
           {type === 'account' && (
             <>
+              <ProFormText
+                name="userName"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <RedditOutlined/>,
+                }}
+                placeholder={'请输入昵称'}
+              />
               <ProFormText
                 name="userAccount"
                 fieldProps={{
@@ -171,10 +207,40 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
+              <ProFormText.Password
+                name="checkPassword"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined/>,
+                }}
+                placeholder={'请确认密码'}
+                rules={[
+                  {
+                    required: true,
+                    message: '确认密码是必填项！',
+                  },
+                ]}
+              />
+              <ProFormText
+                name="invitationCode"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LinkOutlined/>,
+                }}
+                placeholder={'请输入邀请码,没有可不填'}
+              />
             </>
           )}
           {type === 'email' && (
             <>
+              <ProFormText
+                name="userName"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <RedditOutlined/>,
+                }}
+                placeholder={'请输入昵称'}
+              />
               <ProFormText
                 fieldProps={{
                   size: 'large',
@@ -192,6 +258,14 @@ const Login: React.FC = () => {
                     message: '不合法的邮箱账号！',
                   },
                 ]}
+              />
+              <ProFormText
+                name="invitationCode"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LinkOutlined/>,
+                }}
+                placeholder={'请输入邀请码,没有可不填'}
               />
               <ProFormCaptcha
                 fieldProps={{
@@ -226,21 +300,37 @@ const Login: React.FC = () => {
               />
             </>
           )}
+          <ProFormCheckbox
+            initialValue={true}
+            name="agreeToAnAgreement"
+            rules={[
+              () => ({
+                validator(_, value) {
+                  if (!value) {
+                    return Promise.reject(new Error("同意协议后才可以注册"));
+                  }
+                  return Promise.resolve();
+                },
+                required: true,
+              })]}
+          >
+            同意并接受《
+            <a href="javascript:void(0);" onClick={undeveloped}>隐私协议</a>》
+            《
+            <a href="javascript:void(0);" onClick={undeveloped}>用户协议</a>》
+          </ProFormCheckbox>
           <div
             style={{
-              marginBottom: 24,
+              marginTop: -18,
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
             <Link
-              to={'/user/register'}
+              to={'/user/login'}
               style={{
                 float: 'right',
               }}
             >
-              还没账号?点击前往注册
+              已有账号?点击前往登录
             </Link>
           </div>
         </LoginForm>
@@ -249,4 +339,4 @@ const Login: React.FC = () => {
     </div>
   );
 };
-export default Login;
+export default Register;
