@@ -104,10 +104,11 @@ const InterfaceInfo: React.FC = () => {
     }, {
       key: 'errorCode',
       label: <><FileExclamationOutlined/>错误码参照</>,
-    }, {
-      key: 'sampleCode',
-      label: <><CodeOutlined/>示例代码</>,
-    }
+    },
+    // {
+    //   key: 'sampleCode',
+    //   label: <><CodeOutlined/>示例代码</>,
+    // }
   ];
 
   const onSearch = async (values: any) => {
@@ -171,26 +172,26 @@ const InterfaceInfo: React.FC = () => {
         <Column title="描述" dataIndex="des" key="des"/>
       </Table>
     </>,
-    sampleCode:
-      <>
-        <Tabs
-          defaultActiveKey="javadoc"
-          centered
-          onChange={requestExampleTabChange}
-          items={[
-            {
-              key: 'javadoc',
-              label: 'java',
-              children: <CodeHighlighting codeString={javaCode} language={"java"}/>
-            },
-            {
-              key: 'javascript',
-              label: 'axios',
-              children: <CodeHighlighting codeString={axiosCode} language={requestExampleActiveTabKey}/>
-            },
-          ]}
-        />
-      </>
+    // sampleCode:
+    //   <>
+    //     <Tabs
+    //       defaultActiveKey="javadoc"
+    //       centered
+    //       onChange={requestExampleTabChange}
+    //       items={[
+    //         {
+    //           key: 'javadoc',
+    //           label: 'java',
+    //           children: <CodeHighlighting codeString={javaCode} language={"java"}/>
+    //         },
+    //         {
+    //           key: 'javascript',
+    //           label: 'axios',
+    //           children: <CodeHighlighting codeString={axiosCode} language={requestExampleActiveTabKey}/>
+    //         },
+    //       ]}
+    //     />
+    //   </>
   };
 
   return (

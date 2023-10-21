@@ -8,6 +8,8 @@ import HeaderDropdown from '../HeaderDropdown';
 // import {valueLength} from "@/pages/User/UserInfo";
 import {userLogoutUsingPOST} from "@/services/hmapi-backend/userController";
 import Settings from "../../../config/defaultSettings";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {Spin} from "antd";
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -70,6 +72,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({children}) => 
     },
     [setInitialState],
   );
+
 
   const menuItems = [
     {

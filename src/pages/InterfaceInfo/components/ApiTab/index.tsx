@@ -14,7 +14,7 @@ export type Props = {
 };
 const ApiTab: React.FC<Props> = (props) => {
   const {requestParams, errorCodeTab, sampleCode, responseParams, returnCode} = props;
-
+  console.log(requestParams)
   return <>
     <p className="highlightLine" style={{marginTop: 15}}>请求参数说明：</p>
     <Table dataSource={requestParams && requestParams.length > 0 ? requestParams : requestParameters}
@@ -36,7 +36,7 @@ const ApiTab: React.FC<Props> = (props) => {
       <Column title="描述" dataIndex="desc" key="desc"/>
     </Table>
     {/*<p className="highlightLine" style={{marginTop: 15}}>请求示例：</p>*/}
-    <a onClick={() => sampleCode?.()}>见示例代码</a>
+    {/*<a onClick={() => sampleCode?.()}>见示例代码</a>*/}
     <p className="highlightLine" style={{marginTop: 15}}>返回示例：</p>
     <CodeHighlighting codeString={returnCode} language={'javascript'}/>
   </>

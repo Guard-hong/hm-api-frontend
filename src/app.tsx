@@ -1,9 +1,13 @@
+import {BarsOutlined, ExportOutlined, FileTextOutlined, GithubOutlined, WechatOutlined} from '@ant-design/icons';
 import Footer from '@/components/Footer';
 import { Question, SelectLang } from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
+import LightColor from "@/components/Icon/LightColor";
+import {FloatButton, message} from 'antd';
+import wechat from '../public/assets/WeChat.jpg';
 
 
 import React from 'react';
@@ -44,17 +48,61 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
     avatarProps: {
-      src: initialState?.loginUser?.userAvatar,
+      src: initialState?.loginUser?.userAvatar ?? "https://img.qimuu.icu/typory/notLogin.png",
+      title: initialState?.loginUser?.userAccount ?? "游客",
       render: (_, avatarChildren) => {
-        // console.log( initialState?.loginUser?.userAvatar)
-        // console.log(avatarChildren)
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
       content: initialState?.loginUser?.userName,
     },
-    footerRender: () => <Footer />,
+    footerRender: () =>
+      <>
+      <Footer />
+        <FloatButton.Group
+          trigger="hover"
+          style={{right: 94}}
+          icon={<BarsOutlined/>}
+        >
+          <FloatButton
+            tooltip={<img src={wechat} alt="微信 code_nav" width="120"/>}
+            icon={<WechatOutlined/>}
+          />
+          <FloatButton
+            tooltip={"📘 接口在线文档"}
+            icon={<FileTextOutlined/>}
+            onClick={() => {
+              location.href = "https://doc.qimuu.icu/"
+            }
+            }
+          />
+          {/*<FloatButton*/}
+          {/*  tooltip={"分享此网站"}*/}
+          {/*  icon={<ExportOutlined/>}*/}
+          {/*  onClick={() => {*/}
+          {/*    if (!initialState?.loginUser && location.pathname !== loginPath) {*/}
+          {/*      message.error("请先登录")*/}
+          {/*      history.push(loginPath);*/}
+          {/*      return*/}
+          {/*    }*/}
+          {/*    setInitialState({loginUser: initialState?.loginUser, settings: Settings, open: true})*/}
+          {/*  }*/}
+          {/*  }/>*/}
+          <FloatButton
+            tooltip={"切换主题"}
+            icon={<LightColor/>}
+            onClick={() => {
+              if (initialState?.settings.navTheme === "light") {
+                setInitialState({loginUser: initialState?.loginUser, settings: {...Settings, navTheme: "realDark"}})
+              } else {
+                setInitialState({loginUser: initialState?.loginUser, settings: {...Settings, navTheme: "light"}})
+              }
+            }
+            }
+          />
+        </FloatButton.Group>
+      </>,
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
@@ -64,35 +112,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       //   history.push(loginPath);
       // }
     },
-    layoutBgImgList: [
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
-        left: 85,
-        bottom: 100,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr',
-        bottom: -68,
-        right: -45,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr',
-        bottom: 0,
-        left: 0,
-        width: '331px',
-      },
-    ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
-    menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态

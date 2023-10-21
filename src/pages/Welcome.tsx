@@ -1,23 +1,22 @@
-import { PageContainer } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
-import { Card, theme } from 'antd';
+import {useModel} from '@umijs/max';
+import {Card, message, theme, Typography} from 'antd';
 import React from 'react';
+import {Link} from "@@/exports";
 
+
+const {Text, Title} = Typography;
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
  * @param param0
  * @returns
  */
 const InfoCard: React.FC<{
-  title: string;
+  title: any
   index: number;
-  desc: string;
-  href: string;
-}> = ({ title, href, index, desc }) => {
-  const { useToken } = theme;
-
-  const { token } = useToken();
-
+  desc: any;
+}> = ({title, index, desc}) => {
+  const {useToken} = theme;
+  const {token} = useToken();
   return (
     <div
       style={{
@@ -76,18 +75,24 @@ const InfoCard: React.FC<{
       >
         {desc}
       </div>
-      <a href={href} target="_blank" rel="noreferrer">
-        了解更多 {'>'}
-      </a>
+      <br/>
     </div>
   );
 };
 
+
 const Welcome: React.FC = () => {
-  const { token } = theme.useToken();
-  const { initialState } = useModel('@@initialState');
+  const {token} = theme.useToken();
+  const {initialState} = useModel('@@initialState');
+
+  const undeveloped = ()=> {
+    message.error("未开发,敬请期待")
+    return ;
+  }
+
   return (
-    <PageContainer>
+    <>
+
       <Card
         style={{
           borderRadius: 8,
@@ -114,21 +119,46 @@ const Welcome: React.FC = () => {
               color: token.colorTextHeading,
             }}
           >
-            欢迎使用 Ant Design Pro
+            <Title level={3}> 欢迎使用 虹猫API 接口开放平台 🎉</Title>
           </div>
-          <p
+          <div
             style={{
               fontSize: '14px',
               color: token.colorTextSecondary,
               lineHeight: '22px',
               marginTop: 16,
               marginBottom: 32,
-              width: '65%',
+              width: '100%',
             }}
           >
-            Ant Design Pro 是一个整合了 umi，Ant Design 和 ProComponents
-            的脚手架方案。致力于在设计规范和基础组件的基础上，继续向上构建，提炼出典型模板/业务组件/配套设计资源，进一步提升企业级中后台产品设计研发过程中的『用户』和『设计者』的体验。
-          </p>
+            <Text strong>
+              <Title level={4}>虹猫API 接口开放平台是一个为用户和开发者提供全面API接口调用服务的平台 🛠</Title>
+              <Title level={5}>
+                😀 作为用户您可以通过注册登录账户，获取接口调用权限，并根据自己的需求浏览和选择适合的接口。您可以在线进行接口调试，快速验证接口的功能和效果。
+                <br/>
+                💻 作为开发者 我们提供了
+                <a href="javascript:void(0);" rel="noreferrer"  onClick={undeveloped}>
+                  客户端SDK
+                </a>
+                ，
+                通过
+                {/*<Link to="javascript:void(0);">*/}
+                {/*  开发者凭证*/}
+                {/*</Link>*/}
+                <a href="javascript:void(0);" onClick={undeveloped}>
+                  开发者凭证
+                </a>
+                即可将轻松集成接口到您的项目中，实现更高效的开发和调用。
+                <br/>
+                🤝 您可以将自己的接口接入到 虹猫API 接口开放平台平台上，并发布给其他用户使用。
+                您可以管理和各个接口，以便更好地分析和优化接口性能。
+                <br/>
+                👌 我们还提供了<a href={"javascript:void(0);"} rel="noreferrer"  onClick={undeveloped}>开发者在线文档</a>和技术支持，帮助您快速接入和发布接口。
+                <br/>
+                🏁 无论您是用户还是开发者，虹猫API 接口开放平台都致力于提供稳定、安全、高效的接口调用服务，帮助您实现更快速、便捷的开发和调用体验。
+              </Title>
+            </Text>
+          </div>
           <div
             style={{
               display: 'flex',
@@ -138,26 +168,40 @@ const Welcome: React.FC = () => {
           >
             <InfoCard
               index={1}
-              href="https://umijs.org/docs/introduce/introduce"
-              title="了解 umi"
-              desc="umi 是一个可扩展的企业级前端应用框架,umi 以路由为基础的，同时支持配置式路由和约定式路由，保证路由的功能完备，并以此进行功能扩展。"
+              title={<Title level={5}>多样化的接口选择</Title>}
+              desc={<Text
+                strong>平台上提供丰富多样的接口供您选择，涵盖了各个领域的功能和服务，满足不同需求。</Text>}
             />
             <InfoCard
               index={2}
-              title="了解 ant design"
-              href="https://ant.design"
-              desc="antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。"
+              title={<Title level={5}>在线调试功能</Title>}
+              desc={<Text
+                strong>您可以在平台上进行接口在线调试，快速验证接口的功能和效果，节省了开发调试的时间和工作量。</Text>}
             />
             <InfoCard
               index={3}
-              title="了解 Pro Components"
-              href="https://procomponents.ant.design"
-              desc="ProComponents 是一个基于 Ant Design 做了更高抽象的模板组件，以 一个组件就是一个页面为开发理念，为中后台开发带来更好的体验。"
+              title={<Title level={5}>客户端SDK支持</Title>}
+              desc={<Text
+                strong>为了方便开发者集成接口到自己的代码中，平台提供了客户端SDK，使调用接口变得更加简单和便捷。
+              </Text>}
+            />
+            <InfoCard
+              index={4}
+              title={<Title level={5}>开发者文档和技术支持</Title>}
+              desc={<Text
+                strong>平台提供了详细的开发者文档和技术支持，帮助开发者快速接入和发布接口，解决遇到的问题和困难。</Text>}
+            />
+            <InfoCard
+              index={5}
+              title={<Title level={5}>稳定和安全</Title>}
+              desc={<Text
+                strong>平台致力于提供稳定和安全的接口调用服务，采用了安全措施和技术手段，保障用户数据的安全性和隐私保护。</Text>}
             />
           </div>
         </div>
       </Card>
-    </PageContainer>
+
+    </>
   );
 };
 
