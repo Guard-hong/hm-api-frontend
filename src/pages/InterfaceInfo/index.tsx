@@ -2,7 +2,6 @@ import {Badge, Button, Card, Descriptions, Form, message, Spin, Table, Tabs, Tag
 import React, {useEffect, useState} from 'react';
 import {getInterfaceInfoByIdUsingGET, invokeInterfaceUsingPOST} from "@/services/hmapi-backend/interfaceInfoController";
 
-import CodeHighlighting from "@/components/CodeHighlighting";
 import {InterfaceRequestMethodEnum, statusEnum} from "@/enum/commonEnum";
 import {
   BugOutlined,

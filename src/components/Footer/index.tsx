@@ -1,13 +1,15 @@
-import { GithubOutlined } from '@ant-design/icons';
+import { GithubOutlined,WechatOutlined } from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import React from 'react';
+import {Tooltip} from "antd";
+import wechat from '@/../public/assets/WeChat.jpg';
 
 const Footer: React.FC = () => {
   const intl = useIntl();
   const defaultMessage = intl.formatMessage({
     id: 'app.copyright.produced',
-    defaultMessage: '蚂蚁集团体验技术部出品',
+    defaultMessage: '虹猫工作室出品',
   });
 
   const currentYear = new Date().getFullYear();
@@ -20,21 +22,23 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
-          blankTarget: true,
-        },
-        {
           key: 'github',
-          title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          title:(
+            <Tooltip title="查看本站技术及源码，欢迎 star">
+              <GithubOutlined/> 支持项目
+            </Tooltip>
+          ),
+          href: 'https://github.com/Guard-hong',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'contact',
+          title: (
+            <Tooltip title={<img src={wechat} alt="微信 code_nav" width="120"/>}>
+              <WechatOutlined/> 联系作者
+            </Tooltip>
+          ),
+          href: 'http://localhost:8000/assets/WeChat.jpg',
           blankTarget: true,
         },
       ]}

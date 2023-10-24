@@ -5,6 +5,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseImageVo = {
+    code?: number;
+    data?: ImageVo;
+    message?: string;
+  };
+
   type BaseResponseInterfaceInfo = {
     code?: number;
     data?: InterfaceInfo;
@@ -80,8 +86,14 @@ declare namespace API {
     id?: number;
   };
 
+  type ImageVo = {
+    name?: string;
+    status?: string;
+    uid?: string;
+    url?: string;
+  };
+
   type InterfaceInfo = {
-    avatarUrl?: string;
     createTime?: string;
     description?: string;
     id?: number;
@@ -89,7 +101,6 @@ declare namespace API {
     method?: string;
     name?: string;
     reduceScore?: number;
-    requestExample?: string;
     requestHeader?: string;
     requestParams?: string;
     responseHeader?: string;
@@ -125,6 +136,14 @@ declare namespace API {
     status?: number;
     url?: string;
     userId?: number;
+  };
+
+  type listInterfaceInfoBySearchTextPageUsingGETParams = {
+    current?: number;
+    pageSize?: number;
+    searchText?: string;
+    sortField?: string;
+    sortOrder?: string;
   };
 
   type listUserByPageUsingGETParams = {
@@ -258,6 +277,10 @@ declare namespace API {
     searchCount?: boolean;
     size?: number;
     total?: number;
+  };
+
+  type uploadFileUsingPOSTParams = {
+    biz?: string;
   };
 
   type UserAddRequest = {

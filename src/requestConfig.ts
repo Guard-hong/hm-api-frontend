@@ -15,7 +15,7 @@ interface ResponseStructure {
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const requestConfig: RequestConfig = {
-  baseURL: 'http://localhost:7529',
+  baseURL: process.env.NODE_ENV === 'production' ? "http://124.222.245.207:7529/" : 'http://localhost:7529/',
   withCredentials: true,
   // 请求拦截器
   requestInterceptors: [
@@ -30,6 +30,7 @@ export const requestConfig: RequestConfig = {
     (response) => {
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
+      console.log(data);
       if (data.code !== 0) {
         throw new Error(data.message);
       }

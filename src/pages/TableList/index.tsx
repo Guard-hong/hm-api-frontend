@@ -2,7 +2,10 @@ import ProCard from "@ant-design/pro-card";
 import {Card, Divider, Spin, Table} from "antd";
 import Search from "antd/es/input/Search";
 import {useEffect, useState} from "react";
-import {listInterfaceInfoByPageUsingGET} from "@/services/hmapi-backend/interfaceInfoController";
+import {
+  listInterfaceInfoByPageUsingGET,
+  listInterfaceInfoBySearchTextPageUsingGET
+} from "@/services/hmapi-backend/interfaceInfoController";
 import {history} from "@umijs/max";
 
 const TableList: React.FC = () => {
@@ -51,8 +54,15 @@ const TableList: React.FC = () => {
       align: 'center'
     },
   ];
-  const onSearch = () => {
-
+  const onSearch = async () => {
+    const res = await listInterfaceInfoBySearchTextPageUsingGET({
+      current: 1,
+      searchText: searchText,
+    });
+    if (res.data) {
+      setList(res?.data?.records || []);
+      setTotal(res?.data?.total || 0)
+    }
   }
 
 

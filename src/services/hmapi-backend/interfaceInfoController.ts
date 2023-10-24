@@ -17,6 +17,21 @@ export async function getInterfaceInfoByIdUsingGET(
   });
 }
 
+/** listInterfaceInfoBySearchTextPage GET /api/interfaceInfo/get/searchText */
+export async function listInterfaceInfoBySearchTextPageUsingGET(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listInterfaceInfoBySearchTextPageUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsePageInterfaceInfo>('/api/interfaceInfo/get/searchText', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** invokeInterface POST /api/interfaceInfo/invoke */
 export async function invokeInterfaceUsingPOST(
   body: API.InvokeRequest,
