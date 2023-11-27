@@ -65,11 +65,6 @@ const UserInfo: React.FC = () => {
       target: () => ref1.current,
     },
     {
-      title: '我的钱包',
-      description: <span>这里是您的钱包，坤币用于平台接口的调用费用。<br/>除了充值坤币外，您还可以每日签到或者邀请好友注册来获得坤币</span>,
-      target: () => ref2.current,
-    },
-    {
       title: '接口调用凭证',
       description: '这里是您调用接口的凭证，没有凭证将无法调用接口',
       target: () => ref3.current,
@@ -414,7 +409,7 @@ const UserInfo: React.FC = () => {
           bordered
         >
           <Button size={"large"}>
-            <a target={"_blank"} href={"https://github.com/qimu666/qi-api-sdk"}
+            <a target={"_blank"} href={"https://github.com/Guard-hong/hm-api-sdk"}
                rel="noreferrer"><VerticalAlignBottomOutlined/> Java SDK</a>
           </Button>
         </ProCard>

@@ -1,11 +1,10 @@
-import {Badge, Button, Card, Descriptions, Form, message, Spin, Table, Tabs, Tag} from 'antd';
+import {Badge, Button, Card, Descriptions, Form, message, Spin, Table, Tag} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {getInterfaceInfoByIdUsingGET, invokeInterfaceUsingPOST} from "@/services/hmapi-backend/interfaceInfoController";
 
 import {InterfaceRequestMethodEnum, statusEnum} from "@/enum/commonEnum";
 import {
   BugOutlined,
-  CodeOutlined,
   FileExclamationOutlined,
   FileTextOutlined,
   LoginOutlined,
@@ -247,7 +246,7 @@ const InterfaceInfo: React.FC = () => {
         </Link>}
       >
         <Button size={"large"}>
-          <a target={"_blank"} href={"https://github.com/qimu666/qi-api-sdk"}
+          <a target={"_blank"} href={"https://github.com/Guard-hong/hm-api-sdk"}
              rel="noreferrer"><VerticalAlignBottomOutlined/> Java SDK</a>
         </Button>
       </ProCard>)}

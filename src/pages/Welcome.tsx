@@ -137,7 +137,7 @@ const Welcome: React.FC = () => {
                 😀 作为用户您可以通过注册登录账户，获取接口调用权限，并根据自己的需求浏览和选择适合的接口。您可以在线进行接口调试，快速验证接口的功能和效果。
                 <br/>
                 💻 作为开发者 我们提供了
-                <a href="javascript:void(0);" rel="noreferrer"  onClick={undeveloped}>
+                <a href="https://github.com/Guard-hong/hm-api-sdk" rel="noreferrer"  target={"_blank"}>
                   客户端SDK
                 </a>
                 ，
@@ -145,7 +145,7 @@ const Welcome: React.FC = () => {
                 {/*<Link to="javascript:void(0);">*/}
                 {/*  开发者凭证*/}
                 {/*</Link>*/}
-                <a href="javascript:void(0);" onClick={undeveloped}>
+                <a href="/account/center">
                   开发者凭证
                 </a>
                 即可将轻松集成接口到您的项目中，实现更高效的开发和调用。
